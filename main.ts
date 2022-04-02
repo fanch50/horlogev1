@@ -3,6 +3,7 @@ let ampm = false
 let minutes = 0
 let adjust = 0
 let time = ""
+let dodo = 0
 input.onButtonPressed(Button.A, function () {
     if (hours < 23) {
         hours += 1
@@ -42,6 +43,7 @@ input.onGesture(Gesture.Shake, function () {
             time = "" + time + "AM"
         }
     }
+    led.setBrightness(255)
     basic.showString(time)
 })
 basic.forever(function () {
@@ -55,5 +57,29 @@ basic.forever(function () {
         } else {
             hours = 0
         }
+    }
+})
+basic.forever(function () {
+    if (hours < 8) {
+        dodo = 1
+    } else {
+        if (hours >= 20) {
+            dodo = 1
+        } else {
+            dodo = 0
+        }
+    }
+    if (dodo == 1) {
+        led.setBrightness(33)
+        basic.showLeds(`
+            . . . . .
+            . . . . .
+            . . # . .
+            . . . . .
+            . . . . .
+            `)
+    } else {
+        led.setBrightness(130)
+        basic.showIcon(IconNames.Heart)
     }
 })
