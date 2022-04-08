@@ -60,14 +60,13 @@ basic.forever(function () {
     }
 })
 basic.forever(function () {
-    if (hours < 8) {
+    if (hours < 8 || hours >= 20) {
         dodo = 1
-    } else {
-        if (hours >= 20) {
-            dodo = 1
-        } else {
-            dodo = 0
+        if (hours == 7 && minutes >= 40) {
+            dodo = 2
         }
+    } else {
+        dodo = 0
     }
     if (dodo == 1) {
         led.setBrightness(33)
@@ -79,7 +78,11 @@ basic.forever(function () {
             . . . . .
             `)
     } else {
-        led.setBrightness(130)
-        basic.showIcon(IconNames.Heart)
+        if (dodo == 2) {
+            basic.showIcon(IconNames.Happy)
+        } else {
+            led.setBrightness(130)
+            basic.showIcon(IconNames.Heart)
+        }
     }
 })
